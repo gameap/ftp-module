@@ -1,0 +1,14 @@
+{
+    "name": "Ftp",
+    "alias": "ftp",
+    "description": "FTP Accounts Management",
+    "keywords": ["ftp"],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "GameapModules\\Ftp\\Providers\\FtpServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

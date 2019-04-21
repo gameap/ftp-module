@@ -1,0 +1,22 @@
+{
+    "name": "gameap/ftp-module",
+    "description": "FTP Accounts Management",
+    "authors": [
+        {
+            "name": "Nikita Kuznetsov",
+            "email": "nikita.hldm@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GameapModules\\Ftp\\Providers\\FtpServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "GameapModules\\Ftp\\": "modules/Ftp"
+        }
+    }
+}
