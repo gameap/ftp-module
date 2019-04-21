@@ -62,7 +62,7 @@ class FtpAccountsController extends AuthController
     {
         $this->repository->store($request->all());
 
-        return redirect()->route('admin.ftp.accounts.index')
+        return redirect()->route('admin.ftp')
             ->with('success', 'Created');
     }
 
@@ -116,7 +116,7 @@ class FtpAccountsController extends AuthController
     {
         $this->repository->destroy($ftpAccount);
 
-        return redirect()->route('admin.ftp.accounts.index')
+        return redirect()->route('admin.ftp')
             ->with('success', 'Deleted');
     }
 }

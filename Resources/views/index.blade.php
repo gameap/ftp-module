@@ -22,9 +22,9 @@
 
     @include('components.grid', [
         'modelsList' => $ftpAccounts,
-        'labels' => ['Ftp Login', 'Host', 'Dedicated Server', 'User'],
+        'labels' => ['Ftp Username', 'Host', 'Dedicated Server', 'User'],
         'attributes' => [
-            'login',
+            'username',
             'host',
             'dedicatedServer.name',
             'user.login',

@@ -6,7 +6,6 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">GameAP</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.ftp') }}">FTP</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.ftp.accounts.index') }}">FTP Accounts</a></li>
         <li class="breadcrumb-item active">Create FTP account</li>
     </ol>
 @endsection
@@ -28,7 +27,19 @@
                         {{ Form::bsText('port') }}
 
                         {{ Form::bsText('username') }}
-                        {{ Form::bsText('password') }}
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            {{ Form::label('password', null, ['class' => 'control-label']) }}
+
+                            <div class="input-group">
+                                {{ Form::input('password', 'password', null,
+                                    ['class' => 'form-control password', 'autocomplete' => 'new-password']) }}
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary show-hide-password" type="button"><i class="far fa-eye"></i></button>
+                                </div>
+                            </div>
+                        </div>
 
                         {{ Form::bsText('dir') }}
                     </div>
@@ -42,4 +53,8 @@
             </div>
         </div>
     {!! Form::close() !!}
+@endsection
+
+@section('footer-scripts')
+    <script src="{{ URL::asset('/js/formHelpers.js') }}"></script>
 @endsection

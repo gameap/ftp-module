@@ -44,6 +44,14 @@ class FtpAccountRepository
     function update(int $id, array $attributes)
     {
         $ftpAccount = FtpAccount::findOrFail($id);
+
+        $this->commandsService->updateAccount(
+            $ftpAccount->ds_id,
+            $attributes['username'],
+            $attributes['password'],
+            $attributes['dir']
+        );
+
         $ftpAccount->update($attributes);
     }
 
@@ -53,6 +61,11 @@ class FtpAccountRepository
      */
     function destroy(FtpAccount $ftpAccount)
     {
+        $this->commandsService->deleteAccount(
+            $ftpAccount->ds_id,
+            $ftpAccount->username
+        );
+
         $ftpAccount->delete();
     }
 }

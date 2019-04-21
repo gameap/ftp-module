@@ -1,5 +1,5 @@
 {
-    "name": "Ftp",
+    "name": "FTP",
     "alias": "ftp",
     "description": "FTP Accounts Management",
     "keywords": ["ftp"],
@@ -10,5 +10,7 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [],
+    "icon": "<i class=\"fas fa-folder-open fa-5x m-1\"></i>",
+    "main-route": "admin/ftp"
 }

@@ -33,14 +33,18 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <p align="center"><strong>Simple scripts</strong></p>
-                        <p>Create Command:</p>
-                        <code>./ftp_add.sh add --username="{username}" --password="{password}" --directory="{dir}"</code>
 
-                        <p>Update Command:</p>
-                        <code>./ftp_add.sh update --username="{username}" --password="{password}" --directory="{dir}"</code>
+                        <p>Create Command:<br>
+                            <code>./ftp.sh add --username="{username}" --password="{password}" --directory="{dir}"</code>
+                        </p>
+                        <p>Update Command:<br>
+                            <code>./ftp.sh update --username="{username}" --password="{password}" --directory="{dir}"</code>
+                        </p>
+                        <p>Delete Command:<br>
+                            <code>./ftp.sh delete --username="{username}"</code>
+                        </p>
 
-                        <p>Delete Command:</p>
-                        <code>./ftp_add.sh delete --username="{username}"</code>
+                        <p>Download scripts from <a target="_blank" href="https://github.com/gameap/scripts/tree/master/ftp">HERE</a></p>
                     </div>
                 </div>
 
