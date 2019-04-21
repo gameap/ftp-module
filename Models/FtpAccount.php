@@ -5,6 +5,7 @@ namespace GameapModules\Ftp\Models;
 use Illuminate\Database\Eloquent\Model;
 use Gameap\Models\DedicatedServer;
 use Gameap\Models\User;
+use Gameap\Traits\Encryptable;
 
 /**
  * Class FtpAccount
@@ -22,11 +23,17 @@ use Gameap\Models\User;
  */
 class FtpAccount extends Model
 {
+    use Encryptable;
+
     protected $fillable = [
         'ds_id', 'user_id',
         'host', 'port',
         'username', 'password',
         'dir'
+    ];
+
+    protected $encryptable = [
+        'password',
     ];
 
     public function dedicatedServer()

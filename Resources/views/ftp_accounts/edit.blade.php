@@ -1,4 +1,4 @@
-@php($title = 'Edit FTP Account')
+@php($title = __('ftp::ftp_accounts.title_edit'))
 
 @extends('layouts.main')
 
@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">GameAP</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.ftp') }}">FTP</a></li>
-        <li class="breadcrumb-item active">Edit</li>
+        <li class="breadcrumb-item active">{{ __('ftp::ftp_accounts.title_edit') }}</li>
     </ol>
 @endsection
 
@@ -23,7 +23,7 @@
                         {{ Form::bsText('port') }}
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            {{ Form::label('password', null, ['class' => 'control-label']) }}
+                            {{ Form::label('password', __('ftp::ftp_accounts.password'), ['class' => 'control-label']) }}
 
                             <div class="input-group">
                                 {{ Form::input('password', 'password', $ftpAccount->password,

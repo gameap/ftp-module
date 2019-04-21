@@ -63,7 +63,7 @@ class FtpAccountsController extends AuthController
         $this->repository->store($request->all());
 
         return redirect()->route('admin.ftp')
-            ->with('success', 'Created');
+            ->with('success', __('ftp::ftp_accounts.create_success_msg'));
     }
 
     /**
@@ -102,7 +102,7 @@ class FtpAccountsController extends AuthController
         $this->repository->update($id, $request->all());
 
         return redirect()->route('admin.ftp')
-            ->with('success', 'Updated');
+            ->with('success', __('ftp::ftp_accounts.update_success_msg'));
     }
 
     /**
@@ -117,6 +117,6 @@ class FtpAccountsController extends AuthController
         $this->repository->destroy($ftpAccount);
 
         return redirect()->route('admin.ftp')
-            ->with('success', 'Deleted');
+            ->with('success', __('ftp::ftp_accounts.delete_success_msg'));
     }
 }

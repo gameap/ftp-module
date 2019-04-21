@@ -1,4 +1,4 @@
-@php($title = "Edit FTP Commands")
+@php($title = __('ftp::ftp_commands.title_edit'))
 
 @extends('layouts.main')
 
@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">GameAP</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.ftp') }}">FTP</a></li>
-        <li class="breadcrumb-item active">Commands</li>
+        <li class="breadcrumb-item active">{{ __('ftp::ftp_commands.title_edit') }}</li>
     </ol>
 @endsection
 
@@ -15,7 +15,7 @@
 
     <div class="mb-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commandExamples">
-            Command Examples
+            {{ __('ftp::ftp_commands.command_examples') }}
         </button>
     </div>
 
@@ -23,7 +23,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Examples</h5>
+                    <h5 class="modal-title">{{ __('ftp::ftp_commands.examples') }}</h5>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('main.close') }}">
                         <span aria-hidden="true">&times;</span>
@@ -32,19 +32,7 @@
 
                 <div class="modal-body">
                     <div class="mb-2">
-                        <p align="center"><strong>Simple scripts</strong></p>
-
-                        <p>Create Command:<br>
-                            <code>./ftp.sh add --username="{username}" --password="{password}" --directory="{dir}"</code>
-                        </p>
-                        <p>Update Command:<br>
-                            <code>./ftp.sh update --username="{username}" --password="{password}" --directory="{dir}"</code>
-                        </p>
-                        <p>Delete Command:<br>
-                            <code>./ftp.sh delete --username="{username}"</code>
-                        </p>
-
-                        <p>Download scripts from <a target="_blank" href="https://github.com/gameap/scripts/tree/master/ftp">HERE</a></p>
+                        {!! __('ftp::ftp_commands.examples_descryption') !!}
                     </div>
                 </div>
 
@@ -64,19 +52,36 @@
                 </div>
 
                 <div class="card-body">
-                    {{ Form::bsText('default_host[' . $ds->id . ']', $ftpCommands[$ds->id]->default_host ?? '', 'Default Host') }}
+                    {{ Form::bsText('default_host[' . $ds->id . ']', $ftpCommands[$ds->id]->default_host ?? '', __('ftp::ftp_commands.default_host')) }}
 
-                    {{ Form::bsText('create_command[' . $ds->id . ']', $ftpCommands[$ds->id]->create_command ?? '', 'Create Command') }}
-                    {{ Form::bsText('update_command[' . $ds->id . ']', $ftpCommands[$ds->id]->update_command ?? '', 'Update Command') }}
-                    {{ Form::bsText('delete_command[' . $ds->id . ']', $ftpCommands[$ds->id]->delete_command ?? '', 'Delete Command') }}
+                    {{ Form::bsInput('text', [
+                        'name' => 'create_command[' . $ds->id . ']',
+                        'value' => '',
+                        'label' => __('ftp::ftp_commands.create_command'),
+                        'description' => __('ftp::ftp_commands.d_create_command')
+                    ]) }}
+
+                    {{ Form::bsInput('text', [
+                        'name' => 'update_command[' . $ds->id . ']',
+                        'value' => '',
+                        'label' => __('ftp::ftp_commands.update_command'),
+                        'description' => __('ftp::ftp_commands.d_update_command')
+                    ]) }}
+
+                    {{ Form::bsInput('text', [
+                        'name' => 'delete_command[' . $ds->id . ']',
+                        'value' => '',
+                        'label' => __('ftp::ftp_commands.delete_command'),
+                        'description' => __('ftp::ftp_commands.d_delete_command')
+                    ]) }}
                 </div>
 
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-md-2">OS: {{ $ds->os }}</div>
-                        <div class="col-md-2">Location: {{ $ds->location }}</div>
-                        <div class="col-md-2">Provider: {{ $ds->provider }}</div>
-                        <div class="col-md-4">IP: {{ implode(', ', $ds->ip) }}</div>
+                        <div class="col-md-2">{{ __('dedicated_servers.os') }}: {{ $ds->os }}</div>
+                        <div class="col-md-2">{{ __('dedicated_servers.location') }}: {{ $ds->location }}</div>
+                        <div class="col-md-2">{{ __('dedicated_servers.provider') }}: {{ $ds->provider }}</div>
+                        <div class="col-md-4">{{ __('dedicated_servers.ip_list') }}: {{ implode(', ', $ds->ip) }}</div>
                     </div>
 
                 </div>

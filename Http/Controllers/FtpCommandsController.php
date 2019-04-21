@@ -57,6 +57,6 @@ class FtpCommandsController extends AuthController
         $this->repository->updateAll($request->all());
 
         return redirect()->route('admin.ftp')
-            ->with('success', 'Updated');
+            ->with('success', __('ftp::ftp_commands.update_success_msg'));
     }
 }

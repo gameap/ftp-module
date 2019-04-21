@@ -1,4 +1,4 @@
-@php($title = "Ftp commands")
+@php($title = "FTP Manager")
 
 @extends('layouts.main')
 
@@ -12,17 +12,17 @@
 @section('content')
     <div class="mb-2">
         <a class='btn btn-success' href="{{ route('admin.ftp.accounts.create') }}">
-            <span class="fa fa-plus-square"></span>&nbsp;Create
+            <span class="fa fa-plus-square"></span>&nbsp;{{ __('main.create') }}
         </a>
 
         <a class='btn btn-light' href="{{ route('admin.ftp.commands.edit') }}">
-            <span class="fa fa-cogs"></span>&nbsp;Commands
+            <span class="fa fa-cogs"></span>&nbsp;{{ __('ftp::ftp_commands.commands') }}
         </a>
     </div>
 
     @include('components.grid', [
         'modelsList' => $ftpAccounts,
-        'labels' => ['Ftp Username', 'Host', 'Dedicated Server', 'User'],
+        'labels' => [ __('ftp::ftp_accounts.username'), __('labels.host'), __('servers.dedicated_server'), __('users.user')],
         'attributes' => [
             'username',
             'host',
