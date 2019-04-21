@@ -1,6 +1,7 @@
 {
     "name": "gameap/ftp-module",
     "description": "FTP Accounts Management",
+    "type": "laravel-module",
     "authors": [
         {
             "name": "Nikita Kuznetsov",
