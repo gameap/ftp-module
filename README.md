@@ -14,11 +14,8 @@ Update migrations:
 php artisan module:migrate Ftp
 ```
 
-### Copying
+### Without access to CLI (SSH or other)
 
 Copy files to `/path/to/gameap/modules/Ftp/`
 
-Update migrations:
-```bash
-php artisan module:migrate Ftp
-```
+Update migrations. Go to **GameAP** -> **Modules** and click **"Run Migration"**
