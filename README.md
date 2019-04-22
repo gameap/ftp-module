@@ -6,7 +6,7 @@ Manage FTP accounts in the GameAP
 
 Install ftp module:
 ```bash
-composer require gameap/ftp-module
+composer require gameap/ftp-module "^1.1"
 ```
 
 Update migrations:

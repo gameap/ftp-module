@@ -56,21 +56,21 @@
 
                     {{ Form::bsInput('text', [
                         'name' => 'create_command[' . $ds->id . ']',
-                        'value' => '',
+                        'value' => $ftpCommands[$ds->id]->create_command,
                         'label' => __('ftp::ftp_commands.create_command'),
                         'description' => __('ftp::ftp_commands.d_create_command')
                     ]) }}
 
                     {{ Form::bsInput('text', [
                         'name' => 'update_command[' . $ds->id . ']',
-                        'value' => '',
+                        'value' => $ftpCommands[$ds->id]->update_command,
                         'label' => __('ftp::ftp_commands.update_command'),
                         'description' => __('ftp::ftp_commands.d_update_command')
                     ]) }}
 
                     {{ Form::bsInput('text', [
                         'name' => 'delete_command[' . $ds->id . ']',
-                        'value' => '',
+                        'value' => $ftpCommands[$ds->id]->delete_command,
                         'label' => __('ftp::ftp_commands.delete_command'),
                         'description' => __('ftp::ftp_commands.d_delete_command')
                     ]) }}
