@@ -83,18 +83,6 @@ class FtpServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
-     *
-     * @return void
-     */
-    public function registerFactories()
-    {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
-        }
-    }
-
-    /**
      * Get the services provided by the provider.
      *
      * @return array
