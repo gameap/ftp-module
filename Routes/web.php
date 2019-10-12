@@ -20,6 +20,12 @@ Route::group(['prefix' => 'admin', 'name' => 'admin.ftp', 'middleware' => 'isAdm
         'except' => ['show']
     ]);
 
+    Route::name('admin.ftp.accounts.last_error')
+        ->get('ftp/accounts/last_error', 'FtpAccountsController@lastError');
+
     Route::name('admin.ftp.commands.edit')->get('ftp/commands/edit', 'FtpCommandsController@edit');
     Route::name('admin.ftp.commands.update')->patch('ftp/commands', 'FtpCommandsController@update');
+
+    Route::name('admin.ftp.commands.autosetup')
+        ->post('ftp/autosetup', 'FtpCommandsController@autosetup');
 });

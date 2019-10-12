@@ -10,6 +10,20 @@
     </ol>
 @endsection
 
+@section('footer-scripts')
+    <script>
+        $('.run-autosetup').on('click',function($event) {
+            const dsId = $(this).data('ds-id');
+            $event.preventDefault();
+
+            window.gameap.confirm('{{ __('ftp::ftp_commands.autosetup_confirm_msg') }}', function () {
+                $('#autosetup-ds-id').val(dsId);
+                $('#autosetup-form').submit();
+            });
+        });
+    </script>
+@endsection
+
 @section('content')
     @include('components.form.errors_block')
 
@@ -52,6 +66,18 @@
                 </div>
 
                 <div class="card-body">
+                    @if (empty($ftpCommands[$ds->id]->default_host) && empty($ftpCommands[$ds->id]->create_command))
+                        <div class="mb-3">
+                            {{ Form::button( '<i class="fas fa-toolbox"></i>&nbsp;' . __('ftp::ftp_commands.autosetup'),
+                            [
+                                'class' => 'btn btn-sm btn-dark run-autosetup',
+                                'data-ds-id' => $ds->id,
+                                'type' => 'submit'
+                            ]
+                            ) }}
+                        </div>
+                    @endif
+
                     {{ Form::bsText('default_host[' . $ds->id . ']', $ftpCommands[$ds->id]->default_host ?? '', __('ftp::ftp_commands.default_host')) }}
 
                     {{ Form::bsInput('text', [
@@ -89,5 +115,9 @@
         @endforeach
 
         {{ Form::submit(__('main.save'), ['class' => 'btn btn-success']) }}
+    {!! Form::close() !!}
+
+    {!! Form::open(['id' => 'autosetup-form', 'method' => 'POST','route' => 'admin.ftp.commands.autosetup']) !!}
+        {{ Form::hidden('dedicatedServer', null, ['id' => 'autosetup-ds-id']) }}
     {!! Form::close() !!}
 @endsection

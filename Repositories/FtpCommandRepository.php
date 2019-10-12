@@ -8,13 +8,29 @@
 
 namespace GameapModules\Ftp\Repositories;
 
+use GameapModules\Ftp\Services\FtpService;
 use Illuminate\Support\Arr;
 use GameapModules\Ftp\Models\FtpCommand;
 use Gameap\Models\DedicatedServer;
+use League\Flysystem\Adapter\Ftp;
 
 class FtpCommandRepository
 {
-    public function updateAll($attributes)
+    private $ftpService;
+
+    /**
+     * FtpCommandRepository constructor.
+     * @param FtpService $ftpService
+     */
+    public function __construct(FtpService $ftpService)
+    {
+        $this->ftpService = $ftpService;
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function updateAll(array $attributes)
     {
         $dedicatedServers = DedicatedServer::select('id')->get();
 
@@ -35,5 +51,24 @@ class FtpCommandRepository
                 'delete_command' => $attributes['delete_command'][$ds->id],
             ]);
         }
+    }
+
+    /**
+     * @param integer $dedicatedServerId
+     */
+    public function runAutosetup(int $dedicatedServerId)
+    {
+        $dedicatedServer = DedicatedServer::findOrFail($dedicatedServerId);
+
+        FtpCommand::updateOrCreate([
+            'ds_id' => $dedicatedServerId,
+        ], [
+            'default_host' => ($dedicatedServer->ip[0] ?? '0.0.0.0'),
+            'create_command' => FtpCommand::DEFAULT_CREATE_COMMAND,
+            'update_command' => FtpCommand::DEFAULT_UPDATE_COMMAND,
+            'delete_command' => FtpCommand::DEFAULT_DELETE_COMMAND,
+        ]);
+
+        $this->ftpService->install($dedicatedServerId);
     }
 }

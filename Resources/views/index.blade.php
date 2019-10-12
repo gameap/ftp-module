@@ -15,6 +15,10 @@
             <span class="fa fa-plus-square"></span>&nbsp;{{ __('main.create') }}
         </a>
 
+        <a class='btn btn-warning' href="{{ route('admin.ftp.accounts.last_error') }}">
+            <i class="fas fa-exclamation-triangle"></i>&nbsp;{{ __('ftp::ftp_accounts.last_error') }}
+        </a>
+
         <a class='btn btn-light' href="{{ route('admin.ftp.commands.edit') }}">
             <span class="fa fa-cogs"></span>&nbsp;{{ __('ftp::ftp_commands.commands') }}
         </a>

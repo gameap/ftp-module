@@ -2,12 +2,17 @@
     "name": "gameap/ftp-module",
     "description": "FTP Accounts Management",
     "type": "laravel-module",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nikita Kuznetsov",
             "email": "nikita.hldm@gmail.com"
         }
     ],
+    "require": {
+        "php": ">=7.2.0",
+        "knik/gameap-daemon-client": "^0.3"
+    },
     "extra": {
         "laravel": {
             "providers": [

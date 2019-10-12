@@ -1,113 +1,83 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nikita
- * Date: 4/21/19
- * Time: 5:05 PM
- */
 
 namespace GameapModules\Ftp\Services;
 
-use Knik\Gameap\GdaemonCommands;
-use Gameap\Models\DedicatedServer;
+use Gameap\Exceptions\GameapException;
+use Gameap\Services\GdaemonCommandsService;
 use GameapModules\Ftp\Models\FtpCommand;
 
-class CommandsService
+/**
+ * Class CommandsService
+ * @package GameapModules\Ftp\Services
+ */
+class CommandsService extends GdaemonCommandsService
 {
     /**
-     * @var GdaemonCommands
-     */
-    protected $gdaemonCommands;
-
-    /**
-     * ServerService constructor.
+     * Create new FTP account
      *
-     * @param GdaemonCommands $gdaemonCommands
-     */
-    public function __construct(GdaemonCommands $gdaemonCommands)
-    {
-        $this->gdaemonCommands = $gdaemonCommands;
-    }
-
-    /**
-     * @param $dsId
-     * @param $login
-     * @param $directory
-     */
-    public function addAccount($dsId, $username, $password, $dir)
-    {
-        $this->configureGdaemon($dsId);
-
-        $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
-
-        $command = $this->replaceShortCodes($ftpCommand->create_command,
-            compact('username', 'password', 'dir')
-        );
-
-        $this->gdaemonCommands->exec($command);
-    }
-
-    /**
      * @param $dsId
      * @param $username
      * @param $password
      * @param $dir
+     * @return mixed
+     * @throws GameapException
      */
-    public function updateAccount($dsId, $username, $password, $dir)
+    public function addAccount($dsId, $username, $password, $dir, &$exitCode)
     {
-        $this->configureGdaemon($dsId);
-
         $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
 
-        $command = $this->replaceShortCodes($ftpCommand->update_command,
-            compact('username', 'password', 'dir')
+        $this->configureGdaemon($ftpCommand->dedicatedServer);
+        $user = $ftpCommand->dedicatedServer->su_user;
+
+        $command = $this->replaceShortCodes($ftpCommand->create_command,
+            compact('username', 'password', 'dir', 'user')
         );
 
-        $this->gdaemonCommands->exec($command);
+        return $this->gdaemonCommands->exec($command, $exitCode);
     }
 
     /**
+     * Update FTP account
+     *
      * @param $dsId
      * @param $username
+     * @param $password
+     * @param $dir
+     * @return string
+     * @throws GameapException
      */
-    public function deleteAccount($dsId, $username)
+    public function updateAccount($dsId, $username, $password, $dir, &$exitCode)
     {
-        $this->configureGdaemon($dsId);
-
         $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
+
+        $this->configureGdaemon($ftpCommand->dedicatedServer);
+        $user = $ftpCommand->dedicatedServer->su_user;
+
+        $command = $this->replaceShortCodes($ftpCommand->update_command,
+            compact('username', 'password', 'dir', 'user')
+        );
+
+        return $this->gdaemonCommands->exec($command, $exitCode);
+    }
+
+    /**
+     * Remove FTP account from Dedicated Server
+     *
+     * @param $dsId
+     * @param $username
+     * @return mixed
+     * @throws GameapException
+     */
+    public function deleteAccount($dsId, $username, &$exitCode)
+    {
+        $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
+
+        $this->configureGdaemon($ftpCommand->dedicatedServer);
 
         $command = $this->replaceShortCodes($ftpCommand->delete_command,
             compact('username')
         );
 
-        $this->gdaemonCommands->exec($command);
-    }
-
-    /**
-     * Setting up gdaemon commands configuration
-     *
-     * @param Server $server
-     */
-    private function configureGdaemon($dsId)
-    {
-        $dedicatedServer = DedicatedServer::findOrFail($dsId);
-
-        $this->gdaemonCommands->setConfig(
-            $dedicatedServer->gdaemonSettings()
-        );
-    }
-
-    /**
-     * @param string $command
-     * @param array $codes
-     * @return string
-     */
-    private function replaceShortCodes(string $command, array $codes)
-    {
-        foreach ($codes as $code => $value) {
-            $command = str_replace('{' . $code . '}', $value, $command);
-        }
-
-        return $command;
+        return $this->gdaemonCommands->exec($command, $exitCode);
     }
 }

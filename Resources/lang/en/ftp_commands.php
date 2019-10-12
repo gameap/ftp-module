@@ -16,6 +16,7 @@ return [
     'd_delete_command' => 'Shortcodes: {username} — FTP Username',
 
     'update_success_msg' => 'Commands updated successfully',
+    'autosetup_started_msg' => 'Autosetup is running. This may take several minutes.',
 
     'command_examples' => 'Command Examples',
     'examples' => 'Examples',
@@ -36,4 +37,7 @@ return [
         <p>Download scripts from <a target="_blank" href="https://github.com/gameap/scripts/tree/master/ftp">HERE</a> 
         and put them in a working directory on a dedicated server</p>
     ',
+
+    'autosetup' => 'Autosetup',
+    'autosetup_confirm_msg' => 'The required packages installation and configuring will be performed. Continue?'
 ];

@@ -2,6 +2,7 @@
 
 namespace GameapModules\Ftp\Http\Controllers;
 
+use GameapModules\Ftp\Http\Requests\FtpAutosetupRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Gameap\Http\Controllers\AuthController;
@@ -58,5 +59,19 @@ class FtpCommandsController extends AuthController
 
         return redirect()->route('admin.ftp')
             ->with('success', __('ftp::ftp_commands.update_success_msg'));
+    }
+
+    /**
+     * @param FtpAutosetupRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function autosetup(FtpAutosetupRequest $request)
+    {
+        $dedicatedServerId = $request->post('dedicatedServer');
+
+        $this->repository->runAutosetup($dedicatedServerId);
+
+        return redirect()->route('admin.ftp')
+            ->with('success', __('ftp::ftp_commands.autosetup_started_msg'));
     }
 }

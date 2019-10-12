@@ -2,12 +2,15 @@
 
 namespace GameapModules\Ftp\Http\Controllers;
 
+use Gameap\Exceptions\GameapException;
+use GameapModules\Ftp\Exceptions\ExecuteCommandException;
+use GameapModules\Ftp\Http\Requests\FtpAccountUpdateRequest;
 use Illuminate\Http\Response;
 use Gameap\Http\Controllers\AuthController;
 use Gameap\Models\DedicatedServer;
 use GameapModules\Ftp\Repositories\FtpAccountRepository;
 use GameapModules\Ftp\Models\FtpAccount;
-use GameapModules\Ftp\Http\Requests\FtpAccountRequest;
+use GameapModules\Ftp\Http\Requests\FtpAccountCreateRequest;
 
 class FtpAccountsController extends AuthController
 {
@@ -55,27 +58,22 @@ class FtpAccountsController extends AuthController
     /**
      * Store a newly created resource in storage.
      *
-     * @param FtpAccountRequest $request
+     * @param FtpAccountCreateRequest $request
      * @return Response
+     * @throws GameapException
      */
-    public function store(FtpAccountRequest $request)
+    public function store(FtpAccountCreateRequest $request)
     {
-        $this->repository->store($request->all());
+        try {
+            $this->repository->store($request->all());
+        } catch (ExecuteCommandException $exception) {
+            return redirect()->route('admin.ftp')
+                ->with('error', __('ftp::ftp_accounts.create_fail_msg'));
+        }
 
         return redirect()->route('admin.ftp')
             ->with('success', __('ftp::ftp_accounts.create_success_msg'));
     }
-
-    /**
-     * Show the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    // public function show($id)
-    // {
-    //     return view('ftp::ftp_accounts.show');
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,13 +91,19 @@ class FtpAccountsController extends AuthController
     /**
      * Update the specified resource in storage.
      *
-     * @param FtpAccountRequest $request
+     * @param FtpAccountCreateRequest $request
      * @param int $id
      * @return Response
+     * @throws GameapException
      */
-    public function update(FtpAccountRequest $request, $id)
+    public function update(FtpAccountUpdateRequest $request, $id)
     {
-        $this->repository->update($id, $request->all());
+        try {
+            $this->repository->update($id, $request->all());
+        } catch (ExecuteCommandException $exception) {
+            return redirect()->route('admin.ftp')
+                ->with('error', __('ftp::ftp_accounts.update_fail_msg'));
+        }
 
         return redirect()->route('admin.ftp')
             ->with('success', __('ftp::ftp_accounts.update_success_msg'));
@@ -110,13 +114,27 @@ class FtpAccountsController extends AuthController
      *
      * @param FtpAccount $ftpAccount
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @throws GameapException
      */
     public function destroy(FtpAccount $ftpAccount)
     {
-        $this->repository->destroy($ftpAccount);
+        try {
+            $this->repository->destroy($ftpAccount);
+        } catch (ExecuteCommandException $exception) {
+            return redirect()->route('admin.ftp')
+                ->with('error', __('ftp::ftp_accounts.delete_fail_msg'));
+        }
 
         return redirect()->route('admin.ftp')
             ->with('success', __('ftp::ftp_accounts.delete_success_msg'));
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lastError()
+    {
+        $lastError = $this->repository->lastError();
+        return view('ftp::ftp_accounts.last_error', compact('lastError'));
     }
 }

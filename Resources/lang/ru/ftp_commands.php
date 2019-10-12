@@ -13,9 +13,10 @@ return [
 
     'd_create_command' => 'Шорткоды: {username} — Имя пользователя FTP, {password} — FTP Пароль, {dir} — Путь в каталог FTP аккаунта',
     'd_update_command' => 'Шорткоды: {username} — Имя пользователя FTP, {password} — FTP Пароль, {dir} — Путь в каталог FTP аккаунта',
-    'd_delete_command' => 'орткоды: {username} — Имя пользователя FTP,',
+    'd_delete_command' => 'Шорткоды: {username} — Имя пользователя FTP,',
 
     'update_success_msg' => 'Команды успешно обновлены',
+    'autosetup_started_msg' => 'Автонастройка запущена. Это может занять несколько минут.',
 
     'command_examples' => 'Примеры команд',
     'examples' => 'Примеры',
@@ -36,4 +37,7 @@ return [
         <p>Скачайте скрипты <a target="_blank" href="https://github.com/gameap/scripts/tree/master/ftp">ОТСЮДА</a> и 
         поместите их в рабочий каталог на выделенном сервере</p>
     ',
+
+    'autosetup' => 'Автонастройка',
+    'autosetup_confirm_msg' => 'Будет выполнена установка и настройках необходимых пакетов. Продолжить?',
 ];
