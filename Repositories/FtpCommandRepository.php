@@ -35,20 +35,13 @@ class FtpCommandRepository
         $dedicatedServers = DedicatedServer::select('id')->get();
 
         foreach ($dedicatedServers as $ds) {
-            if (!isset($attributes['create_command'][$ds->id])
-                && !isset($attributes['update_command'][$ds->id])
-                && !isset($attributes['delete_command'][$ds->id])
-            ) {
-                continue;
-            }
-
             FtpCommand::updateOrCreate([
                 'ds_id' => $ds->id,
             ], [
-                'default_host' => $attributes['default_host'][$ds->id],
-                'create_command' => $attributes['create_command'][$ds->id],
-                'update_command' => $attributes['update_command'][$ds->id],
-                'delete_command' => $attributes['delete_command'][$ds->id],
+                'default_host' => $attributes['default_host'][$ds->id] ?? '',
+                'create_command' => $attributes['create_command'][$ds->id] ?? '',
+                'update_command' => $attributes['update_command'][$ds->id] ?? '',
+                'delete_command' => $attributes['delete_command'][$ds->id] ?? '',
             ]);
         }
     }

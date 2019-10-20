@@ -18,20 +18,7 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-group" id="dedicatedServerForm">
-                            {{ Form::label('ds_id', 'Dedicated server', ['class' => 'control-label']) }}
-                            {{ Form::select('ds_id', $dedicatedServers, null, ['class' => 'form-control', 'v-on:change' => 'dsChangeHandler', 'v-model' => 'dsId']) }}
-                        </div>
-
-                        <div class="form-group">
-                            <template id="ip-list-template">
-                                {{ Form::label('host', __('labels.host'), ['class' => 'control-label']) }}
-
-                                <select class='form-control' id='server_ip' name='host'>
-                                    <option :value="ip" v-for="ip in ipList">@{{ip}}</option>
-                                </select>
-                            </template>
-                        </div>
+                        <ds-ip-selector :ds-list="{{ $dedicatedServers }}"></ds-ip-selector>
 
                         {{ Form::bsText('port', 21) }}
 
