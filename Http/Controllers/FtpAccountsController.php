@@ -5,26 +5,28 @@ namespace GameapModules\Ftp\Http\Controllers;
 use Gameap\Exceptions\GameapException;
 use GameapModules\Ftp\Exceptions\ExecuteCommandException;
 use GameapModules\Ftp\Http\Requests\FtpAccountUpdateRequest;
-use Illuminate\Http\Response;
-use Gameap\Http\Controllers\AuthController;
-use Gameap\Models\DedicatedServer;
 use GameapModules\Ftp\Repositories\FtpAccountRepository;
 use GameapModules\Ftp\Models\FtpAccount;
 use GameapModules\Ftp\Http\Requests\FtpAccountCreateRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Gameap\Http\Controllers\AuthController;
+use Gameap\Models\DedicatedServer;
+use Illuminate\View\View;
 
 class FtpAccountsController extends AuthController
 {
     /**
      * The GameRepository instance.
      *
-     * @var \GameapModules\Ftp\Repositories\FtpAccountRepository
+     * @var FtpAccountRepository
      */
     protected $repository;
 
     /**
      * Create a new GameController instance.
      *
-     * @param  \GameapModules\Ftp\Repositories\FtpAccountRepository $repository
+     * @param FtpAccountRepository $repository
      */
     public function __construct(FtpAccountRepository $repository)
     {
@@ -35,7 +37,7 @@ class FtpAccountsController extends AuthController
 
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return Factory|View
      */
     public function index()
     {
@@ -46,7 +48,7 @@ class FtpAccountsController extends AuthController
 
     /**
      * Show the form for creating a new resource.
-     * @return Response
+     * @return Factory|View
      */
     public function create()
     {
@@ -59,7 +61,7 @@ class FtpAccountsController extends AuthController
      * Store a newly created resource in storage.
      *
      * @param FtpAccountCreateRequest $request
-     * @return Response
+     * @return RedirectResponse
      * @throws GameapException
      */
     public function store(FtpAccountCreateRequest $request)
@@ -79,7 +81,7 @@ class FtpAccountsController extends AuthController
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return Factory|View
      */
     public function edit(FtpAccount $ftpAccount)
     {
@@ -93,7 +95,7 @@ class FtpAccountsController extends AuthController
      *
      * @param FtpAccountCreateRequest $request
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      * @throws GameapException
      */
     public function update(FtpAccountUpdateRequest $request, $id)
@@ -113,7 +115,7 @@ class FtpAccountsController extends AuthController
      * Remove the specified resource from storage.
      *
      * @param FtpAccount $ftpAccount
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws GameapException
      */
     public function destroy(FtpAccount $ftpAccount)
@@ -130,7 +132,7 @@ class FtpAccountsController extends AuthController
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function lastError()
     {

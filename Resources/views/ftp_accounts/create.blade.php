@@ -18,7 +18,7 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-                        <ds-ip-selector :ds-list="{{ $dedicatedServers }}"></ds-ip-selector>
+                        <ds-ip-selector :ds-list="{{ $dedicatedServers }}" server-ip-field-name="host"></ds-ip-selector>
 
                         {{ Form::bsText('port', 21) }}
 
