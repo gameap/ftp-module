@@ -3,6 +3,7 @@
 namespace GameapModules\Ftp\Http\Controllers;
 
 use Gameap\Exceptions\GameapException;
+use Gameap\Models\Server;
 use GameapModules\Ftp\Exceptions\ExecuteCommandException;
 use GameapModules\Ftp\Http\Requests\FtpAccountUpdateRequest;
 use GameapModules\Ftp\Repositories\FtpAccountRepository;
@@ -64,10 +65,18 @@ class FtpAccountsController extends AuthController
      * @return RedirectResponse
      * @throws GameapException
      */
-    public function store(FtpAccountCreateRequest $request)
+    public function store(FtpAccountCreateRequest $request): RedirectResponse
     {
+        $attributes = $request->all();
+
+        if (!empty($attributes['game_server_id'])) {
+            /** @var Server $server */
+            $server = Server::findOrFail($attributes['game_server_id']);
+            $attributes['user'] = $server->su_user;
+        }
+
         try {
-            $this->repository->store($request->all());
+            $this->repository->store($attributes);
         } catch (ExecuteCommandException $exception) {
             return redirect()->route('admin.ftp')
                 ->with('error', __('ftp::ftp_accounts.create_fail_msg'));
@@ -75,6 +84,13 @@ class FtpAccountsController extends AuthController
 
         return redirect()->route('admin.ftp')
             ->with('success', __('ftp::ftp_accounts.create_success_msg'));
+    }
+
+    public function show(FtpAccount $ftpAccount)
+    {
+        return view('ftp::ftp_accounts.view', [
+            'ftpAccount' => $ftpAccount
+        ]);
     }
 
     /**

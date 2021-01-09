@@ -17,7 +17,6 @@ Route::group(['prefix' => 'admin', 'name' => 'admin.ftp', 'middleware' => 'isAdm
     Route::name('admin.ftp')->resource('ftp/accounts', 'FtpAccountsController', [
         'as' => 'admin',
         'parameters' => ['accounts' => 'ftp_account'],
-        'except' => ['show']
     ]);
 
     Route::name('admin.ftp.accounts.last_error')

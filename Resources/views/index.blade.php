@@ -26,13 +26,17 @@
 
     @include('components.grid', [
         'modelsList' => $ftpAccounts,
-        'labels' => [ __('ftp::ftp_accounts.username'), __('labels.host'), __('servers.dedicated_server'), __('users.user')],
+        'labels' => [
+            __('ftp::ftp_accounts.username'),
+            __('labels.host') . ':' . __('labels.port'),
+            __('servers.dedicated_server')
+        ],
         'attributes' => [
             'username',
-            'host',
+            ['twoSeparatedValues', ['host', ':', 'port']],
             'dedicatedServer.name',
-            'user.login',
         ],
+        'viewRoute' => 'admin.ftp.accounts.show',
         'editRoute' => 'admin.ftp.accounts.edit',
         'destroyRoute' => 'admin.ftp.accounts.destroy',
     ])

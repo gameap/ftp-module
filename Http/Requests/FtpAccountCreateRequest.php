@@ -15,6 +15,7 @@ class FtpAccountCreateRequest extends Request
             'port' => 'integer',
             'username' => 'required',
             'password' => 'required',
+            'game_server_id' => 'exists:servers,id',
             'dir' => 'required'
         ];
     }

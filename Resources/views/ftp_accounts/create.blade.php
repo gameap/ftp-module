@@ -36,6 +36,13 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <server-selector></server-selector>
 
                         {{ Form::bsText('dir') }}
                     </div>
@@ -52,5 +59,25 @@
 @endsection
 
 @section('footer-scripts')
+    <script>
+        const dirPathChanger = {
+            computed: {
+                selectedServerId: function () { return window.gameapStore.state.servers.serverId }
+            },
+            watch: {
+                selectedServerId() {
+                    const server = window.gameapStore.getters['servers/selectedServer'];
+                    if (server !== null) {
+                        $('input[name=dir]').val(server.full_path);
+                    }
+                }
+            }
+        };
+
+        new (window.Vue.extend({
+            mixins: [dirPathChanger]
+        }));
+
+    </script>
     <script src="{{ URL::asset('/js/formHelpers.js') }}"></script>
 @endsection

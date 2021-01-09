@@ -7,14 +7,14 @@ use Gameap\Exceptions\GameapException;
 use GameapModules\Ftp\Exceptions\ExecuteCommandException;
 use GameapModules\Ftp\Models\FtpAccount;
 use GameapModules\Ftp\Services\CommandsService;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class FtpAccountRepository
 {
-    const EXEC_SUCCESS_CODE = 0;
+    public const EXEC_SUCCESS_CODE = 0;
 
-    const CACHE_TTL_SECONDS = 300;
-    const CACHE_LAST_ERROR_KEY = 'ftp:last_error';
+    public const CACHE_TTL_SECONDS = 300;
+    public const CACHE_LAST_ERROR_KEY = 'ftp:last_error';
 
     /**
      * @var CommandsService
@@ -43,6 +43,7 @@ class FtpAccountRepository
             $attributes['username'],
             $attributes['password'],
             $attributes['dir'],
+            $attributes['user'] ?? '',
             $exitCode
         );
 
@@ -60,7 +61,7 @@ class FtpAccountRepository
      * @throws ExecuteCommandException
      * @throws GameapException
      */
-    function update(int $id, array $attributes)
+    public function update(int $id, array $attributes)
     {
         $ftpAccount = FtpAccount::findOrFail($id);
 
@@ -69,6 +70,7 @@ class FtpAccountRepository
             $attributes['username'] ?? $ftpAccount->username,
             $attributes['password'],
             $attributes['dir'],
+            $attributes['user'] ?? '',
             $exitCode
         );
 
@@ -86,7 +88,7 @@ class FtpAccountRepository
      * @throws GameapException
      * @throws Exception
      */
-    function destroy(FtpAccount $ftpAccount)
+    public function destroy(FtpAccount $ftpAccount)
     {
         $result = $this->commandsService->deleteAccount(
             $ftpAccount->ds_id,
@@ -105,7 +107,7 @@ class FtpAccountRepository
     /**
      * @return mixed
      */
-    function lastError()
+    public function lastError()
     {
         return Cache::get(self::CACHE_LAST_ERROR_KEY);
     }

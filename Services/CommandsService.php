@@ -4,6 +4,8 @@ namespace GameapModules\Ftp\Services;
 
 use Gameap\Exceptions\GameapException;
 use Gameap\Services\GdaemonCommandsService;
+use GameapModules\Ftp\Exceptions\FTPCommandNotFoundException;
+use GameapModules\Ftp\Exceptions\ServiceException;
 use GameapModules\Ftp\Models\FtpCommand;
 
 /**
@@ -22,12 +24,15 @@ class CommandsService extends GdaemonCommandsService
      * @return mixed
      * @throws GameapException
      */
-    public function addAccount($dsId, $username, $password, $dir, &$exitCode)
+    public function addAccount($dsId, $username, $password, $dir, $user, &$exitCode)
     {
-        $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
+        $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->first();
+
+        if ($ftpCommand === null) {
+            throw new FTPCommandNotFoundException('Command not found');
+        }
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
-        $user = $ftpCommand->dedicatedServer->su_user;
 
         $command = $this->replaceShortCodes($ftpCommand->create_command,
             compact('username', 'password', 'dir', 'user')
@@ -46,12 +51,15 @@ class CommandsService extends GdaemonCommandsService
      * @return string
      * @throws GameapException
      */
-    public function updateAccount($dsId, $username, $password, $dir, &$exitCode)
+    public function updateAccount($dsId, $username, $password, $dir, $user, &$exitCode)
     {
         $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
 
+        if ($ftpCommand === null) {
+            throw new FTPCommandNotFoundException('Command not found');
+        }
+
         $this->configureGdaemon($ftpCommand->dedicatedServer);
-        $user = $ftpCommand->dedicatedServer->su_user;
 
         $command = $this->replaceShortCodes($ftpCommand->update_command,
             compact('username', 'password', 'dir', 'user')
@@ -71,6 +79,10 @@ class CommandsService extends GdaemonCommandsService
     public function deleteAccount($dsId, $username, &$exitCode)
     {
         $ftpCommand = FtpCommand::where(['ds_id' => $dsId])->firstOrFail();
+
+        if ($ftpCommand === null) {
+            throw new FTPCommandNotFoundException('Command not found');
+        }
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 

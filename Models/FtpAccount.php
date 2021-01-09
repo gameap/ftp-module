@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Gameap\Models\DedicatedServer;
 use Gameap\Models\User;
 use Gameap\Traits\Encryptable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class FtpAccount
@@ -20,6 +21,8 @@ use Gameap\Traits\Encryptable;
  * @property string $username
  * @property string $password
  * @property string $dir
+ *
+ * @property string $link
  */
 class FtpAccount extends Model
 {
@@ -36,13 +39,22 @@ class FtpAccount extends Model
         'password',
     ];
 
-    public function dedicatedServer()
+    public function dedicatedServer(): BelongsTo
     {
         return $this->belongsTo(DedicatedServer::class, 'ds_id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getLinkAttribute(): string
+    {
+        $portString = $this->port === 21
+            ? ''
+            : ":{$this->port}";
+
+        return "ftp://{$this->username}:{$this->password}@{$this->host}{$portString}";
     }
 }
