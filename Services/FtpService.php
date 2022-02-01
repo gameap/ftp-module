@@ -10,9 +10,8 @@ use Gameap\Models\GdaemonTask;
  */
 class FtpService
 {
-    const SCRIPT_NAME = './ftp.sh';
-    const INSTALL_CMD = './ftp.sh install';
-    const SCRIPT_DOWNLOAD_LINK = 'https://raw.githubusercontent.com/gameap/scripts/master/ftp/proftpd/ftp.sh';
+    const GET_COMMAND = "get-tool https://raw.githubusercontent.com/gameap/scripts/master/ftp/proftpd/ftp.sh";
+    const INSTALL_COMMAND = '{node_tools_path}/ftp.sh install';
 
     /**
      * @param integer $dedicatedServerId
@@ -20,15 +19,20 @@ class FtpService
      */
     public function install(int $dedicatedServerId)
     {
-        $executeCommand = 'curl -O ' . self::SCRIPT_DOWNLOAD_LINK
-            . ' && ' . 'chmod +x ' . self::SCRIPT_NAME
-            . ' && ' . self::INSTALL_CMD;
-
-        return GdaemonTask::create([
+        $getTask = GdaemonTask::create([
             'run_aft_id' => 0,
             'dedicated_server_id' => $dedicatedServerId,
             'task' => GdaemonTask::TASK_CMD_EXEC,
-            'cmd' => $executeCommand,
-        ])->id;
+            'cmd' => self::GET_COMMAND,
+        ]);
+
+        $installTask = GdaemonTask::create([
+            'run_aft_id' => 0,
+            'dedicated_server_id' => $dedicatedServerId,
+            'task' => GdaemonTask::TASK_CMD_EXEC,
+            'cmd' => self::INSTALL_COMMAND,
+        ]);
+
+        return $getTask->id;
     }
 }

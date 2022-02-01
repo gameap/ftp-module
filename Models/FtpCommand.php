@@ -21,9 +21,9 @@ use Gameap\Models\DedicatedServer;
  */
 class FtpCommand extends Model
 {
-    const DEFAULT_CREATE_COMMAND = './ftp.sh add --username="{username}" --password="{password}" --directory="{dir}" --user="{user}"';
-    const DEFAULT_UPDATE_COMMAND = './ftp.sh update --username="{username}" --password="{password}" --directory="{dir}"';
-    const DEFAULT_DELETE_COMMAND = './ftp.sh delete --username="{username}"';
+    const DEFAULT_CREATE_COMMAND = '{node_tools_path}/ftp.sh add --username="{username}" --password="{password}" --directory="{dir}" --user="{user}"';
+    const DEFAULT_UPDATE_COMMAND = '{node_tools_path}/ftp.sh update --username="{username}" --password="{password}" --directory="{dir}"';
+    const DEFAULT_DELETE_COMMAND = '{node_tools_path}/ftp.sh delete --username="{username}"';
 
     /** @var bool  */
     public $timestamps = false;
