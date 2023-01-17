@@ -2,7 +2,7 @@
     "name": "FTP",
     "alias": "ftp",
     "description": "FTP Accounts Management",
-    "version": "1.4.1",
+    "version": "1.5.1",
     "gameap-required": ">=3.0.0-beta4",
     "keywords": ["ftp"],
     "active": 1,

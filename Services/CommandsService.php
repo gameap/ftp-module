@@ -67,7 +67,7 @@ class CommandsService extends GdaemonCommandsService
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 
-        $command = $this->replaceShortCodes($ftpCommand->create_command,
+        $command = $this->replaceShortCodes($ftpCommand->update_command,
             [
                 'username' => $username,
                 'password' => $password,
@@ -98,7 +98,7 @@ class CommandsService extends GdaemonCommandsService
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 
-        $command = $this->replaceShortCodes($ftpCommand->create_command,
+        $command = $this->replaceShortCodes($ftpCommand->delete_command,
             [
                 'username' => $username,
                 'node_tools_path' => $ftpCommand->dedicatedServer->work_path  . "/tools",
