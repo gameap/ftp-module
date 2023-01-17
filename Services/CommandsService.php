@@ -35,7 +35,13 @@ class CommandsService extends GdaemonCommandsService
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 
         $command = $this->replaceShortCodes($ftpCommand->create_command,
-            compact('username', 'password', 'dir', 'user')
+            [
+                'username' => $username,
+                'password' => $password,
+                'dir' => $dir,
+                'user' => $user,
+                'node_tools_path' => $ftpCommand->dedicatedServer->work_path  . "/tools",
+            ]
         );
 
         return $this->gdaemonCommands->exec($command, $exitCode);
@@ -61,8 +67,14 @@ class CommandsService extends GdaemonCommandsService
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 
-        $command = $this->replaceShortCodes($ftpCommand->update_command,
-            compact('username', 'password', 'dir', 'user')
+        $command = $this->replaceShortCodes($ftpCommand->create_command,
+            [
+                'username' => $username,
+                'password' => $password,
+                'dir' => $dir,
+                'user' => $user,
+                'node_tools_path' => $ftpCommand->dedicatedServer->work_path  . "/tools",
+            ]
         );
 
         return $this->gdaemonCommands->exec($command, $exitCode);
@@ -86,8 +98,11 @@ class CommandsService extends GdaemonCommandsService
 
         $this->configureGdaemon($ftpCommand->dedicatedServer);
 
-        $command = $this->replaceShortCodes($ftpCommand->delete_command,
-            compact('username')
+        $command = $this->replaceShortCodes($ftpCommand->create_command,
+            [
+                'username' => $username,
+                'node_tools_path' => $ftpCommand->dedicatedServer->work_path  . "/tools",
+            ]
         );
 
         return $this->gdaemonCommands->exec($command, $exitCode);
